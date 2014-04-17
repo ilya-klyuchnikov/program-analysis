@@ -22,7 +22,7 @@ class ReachingDefinitionsSpec extends org.scalatest.FunSpec {
     Set(ps.map{case (s, l) => (Var(s.name), l)}:_*)
 
   describe("Reaching Definitions Analysis of Factorial program (Example 1.1)") {
-    val actual = ReachingDefinitions.solve(factorialProgram)
+    val actual = ReachingDefinitions(factorialProgram).solve()
     val expected = Map[ProgramPoint, Set[(Var, Label)]](
       Entry(1) -> set('x -> 0, 'y -> 0, 'z -> 0),
       Exit(1)  -> set('x -> 0, 'y -> 1, 'z -> 0),
@@ -56,7 +56,7 @@ class ReachingDefinitionsSpec extends org.scalatest.FunSpec {
           ('x := 'x - 1)  |: 5
         )
       )
-    val actual = ReachingDefinitions.solve(prog)
+    val actual = ReachingDefinitions(prog).solve()
     val expected = Map[ProgramPoint, Set[(Var, Label)]](
       Entry(1) -> set('x -> 0, 'y -> 0),
       Exit(1)  -> set('x -> 1, 'y -> 0),

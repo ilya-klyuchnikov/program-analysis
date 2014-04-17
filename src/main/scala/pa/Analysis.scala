@@ -2,19 +2,19 @@ package pa
 
 import pa.ast._
 
-trait Analysis[R] {
+abstract class Analysis[R] {
   type PP = ProgramPoint
   type Solution = Map[PP, R]
   // a single equation
   case class Equation(pp: PP, f: Solution => R)
 
-  def equations(prog: Stmt): List[Equation]
-  def zeroApproximation(prog: Stmt): Solution
+  def equations(): List[Equation]
+  def zeroApproximation(): Solution
 
   // naive solving a la chaotic iteration
-  def solve(prog: Stmt): Solution = {
-    var result, prev = zeroApproximation(prog)
-    val eqs = equations(prog)
+  def solve(): Solution = {
+    var result, prev = zeroApproximation()
+    val eqs = equations()
     do {
       prev = result
       for (eq <- eqs) {
