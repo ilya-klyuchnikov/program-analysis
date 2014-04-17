@@ -81,4 +81,26 @@ object controlFlow {
   def flowGraph(stmt: Stmt): FlowGraph =
     FlowGraph(labels(stmt), flow(stmt))
 
+  // non-trivial arithmethic subexpressions
+  def aExprs(exp: Expr): Set[AExpr] = exp match {
+    case aop@AOperation(ae1, ae2, _) =>
+      Set(aop) ++ aExprs(ae1) ++ aExprs(ae2)
+    case Not(be) =>
+      aExprs(be)
+    case BOperation(be1, be2, _) =>
+      aExprs(be1) ++ aExprs(be2)
+    case ROperation(be1, be2, _) =>
+      aExprs(be1) ++ aExprs(be2)
+    case _ =>
+      Set()
+  }
+
+  def aExprs(block: ElementaryBlock): Set[AExpr] = block match {
+    case LabeledAssignment(v, ae, label) =>
+      aExprs(ae)
+    case LabeledBExpr(be, label) =>
+      aExprs(be)
+    case LabeledSkip(_) =>
+      Set()
+  }
 }
