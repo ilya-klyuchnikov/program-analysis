@@ -4,7 +4,7 @@ object ast {
   type Label = Int
   object AOperator extends Enumeration {
     type AOperator = Value
-    val UNKNOWN = Value
+    val PLUS, MINUS, MULT = Value
   }
 
   object BOperator extends Enumeration {
@@ -14,7 +14,7 @@ object ast {
 
   object ROperator extends Enumeration {
     type ROperator = Value
-    val UNKNOWN = Value
+    val GT = Value
   }
 
   import AOperator._
@@ -30,13 +30,16 @@ object ast {
   // arithmetic expression
   sealed trait AExpr extends Expr {
     def >(ae: AExpr) =
-      ROperation(this, ae, ROperator.UNKNOWN)
+      ROperation(this, ae, ROperator.GT)
 
     def *(ae: AExpr) =
-      AOperation(this, ae, AOperator.UNKNOWN)
+      AOperation(this, ae, AOperator.MULT)
+
+    def +(ae: AExpr) =
+      AOperation(this, ae, AOperator.PLUS)
 
     def -(ae: AExpr) =
-      AOperation(this, ae, AOperator.UNKNOWN)
+      AOperation(this, ae, AOperator.MINUS)
   }
 
   case class Var(v: String) extends AExpr

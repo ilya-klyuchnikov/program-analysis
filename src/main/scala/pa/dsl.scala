@@ -8,11 +8,6 @@ object dsl {
       Assignment(Var(s.name), e)
   }
 
-  implicit class AExprOps(val ae: Var) {
-    def >(ae1: AExpr) =
-      AOperation(ae, ae1, AOperator.UNKNOWN)
-  }
-
   implicit def symbolToVar(s: Symbol): Var =
     Var(s.name)
 
