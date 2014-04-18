@@ -1,3 +1,5 @@
+package pa.test
+
 import pa.ast._
 import pa.dataFlow.AvailableExpressions
 import pa.dsl._

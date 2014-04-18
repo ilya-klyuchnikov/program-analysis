@@ -26,5 +26,8 @@ object dsl {
   def `while`(be: LabeledBExpr)(ss: Stmt*) =
     While(be, StmtSeq(ss.toList))
 
+  def `if`(be: LabeledBExpr)(ss1: Stmt*)(ss2: Stmt*) =
+    If(be, StmtSeq(ss1.toList), StmtSeq(ss2.toList))
+
   def skip = Skip
 }
