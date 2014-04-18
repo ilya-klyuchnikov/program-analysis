@@ -11,7 +11,7 @@ object dsl {
   implicit def symbolToVar(s: Symbol): Var =
     Var(s.name)
 
-  implicit def intToNumeral(i: Int) =
+  implicit def intToNumeral(i: Int): AExpr =
     Numeral(i)
 
   implicit class LabelOps(val label: Int) {
