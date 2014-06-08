@@ -12,12 +12,6 @@ case class ReachingDefinitions(prog: Stmt) extends Analysis[Set[(Var, Label)]] {
   val programVars = vars(prog)
 
   override def equations(): List[Equation] = points.map {
-    case pp@Exit(l) =>
-      val block = eBlocks.find(_.label == l).get
-      Equation(
-        pp,
-        sol => sol(Entry(l)) -- kill(block) ++ gen(block)
-      )
     case pp@Entry(l) if l == initialLabel(prog) =>
       Equation(
         pp,
@@ -28,6 +22,12 @@ case class ReachingDefinitions(prog: Stmt) extends Analysis[Set[(Var, Label)]] {
       Equation(
         pp,
         sol => froms.map(from => sol(Exit(from))).reduce(_ ++ _)
+      )
+    case pp@Exit(l) =>
+      val block = eBlocks.find(_.label == l).get
+      Equation(
+        pp,
+        sol => sol(Entry(l)) -- kill(block) ++ gen(block)
       )
   }
 
