@@ -1,9 +1,9 @@
 package pa.test
 
 import pa.ast._
+import pa.controlFlow._
 import pa.dataFlow.ReachingDefinitions
 import pa.dsl._
-import pa.controlFlow._
 
 class ReachingDefinitionsSpec extends org.scalatest.FunSpec {
 

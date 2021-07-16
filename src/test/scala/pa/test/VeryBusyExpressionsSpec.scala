@@ -1,9 +1,9 @@
 package pa.test
 
 import pa.ast._
+import pa.controlFlow._
 import pa.dataFlow.VeryBusyExpressions
 import pa.dsl._
-import pa.controlFlow._
 
 class VeryBusyExpressionsSpec extends org.scalatest.FunSpec {
 

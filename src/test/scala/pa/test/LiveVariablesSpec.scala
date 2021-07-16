@@ -1,9 +1,9 @@
 package pa.test
 
 import pa.ast._
+import pa.controlFlow._
 import pa.dataFlow.LiveVariables
 import pa.dsl._
-import pa.controlFlow._
 
 class LiveVariablesSpec extends org.scalatest.FunSpec {
 

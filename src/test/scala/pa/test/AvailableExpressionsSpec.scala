@@ -1,9 +1,9 @@
 package pa.test
 
 import pa.ast._
+import pa.controlFlow._
 import pa.dataFlow.AvailableExpressions
 import pa.dsl._
-import pa.controlFlow._
 
 class AvailableExpressionsSpec extends org.scalatest.FunSpec {
 
