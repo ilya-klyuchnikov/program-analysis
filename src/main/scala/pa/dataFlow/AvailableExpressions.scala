@@ -5,10 +5,10 @@ import pa.ast._
 import pa.controlFlow._
 
 case class AvailableExpressions(prog: Stmt) extends Analysis[Set[AExpr]] {
-  val points = programPoints(prog)
-  val eBlocks = blocks(prog)
-  val cfg = flowGraph(prog)
-  val programAExprs = eBlocks.map(aExprs).reduce(_ ++ _)
+  private val points = programPoints(prog)
+  private val eBlocks = blocks(prog)
+  private val cfg = flowGraph(prog)
+  private val programAExprs = eBlocks.map(aExprs).reduce(_ ++ _)
 
   override def equations(): List[Equation] = points.map {
     case pp@Entry(l) if l == initialLabel(prog) =>

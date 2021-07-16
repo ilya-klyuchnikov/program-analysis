@@ -5,10 +5,10 @@ import pa.ast._
 import pa.controlFlow._
 
 case class LiveVariables(prog: Stmt) extends Analysis[Set[Var]] {
-  val points = programPoints(prog)
-  val eBlocks = blocks(prog)
-  val flows = flowGraph(prog).flows
-  val programAExprs = eBlocks.map(aExprs).reduce(_ ++ _)
+  private val points = programPoints(prog)
+  private val eBlocks = blocks(prog)
+  private val flows = flowGraph(prog).flows
+  private val programAExprs = eBlocks.map(aExprs).reduce(_ ++ _)
 
   override def equations(): List[Equation] = points.map {
     case pp@Entry(l) =>

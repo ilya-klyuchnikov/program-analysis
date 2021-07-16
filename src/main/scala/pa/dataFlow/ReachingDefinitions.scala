@@ -5,11 +5,11 @@ import pa.ast._
 import pa.controlFlow._
 
 case class ReachingDefinitions(prog: Stmt) extends Analysis[Set[(Var, Label)]] {
-  val points = programPoints(prog)
-  val eBlocks = blocks(prog)
-  val cfg = flowGraph(prog)
-  val allLabels = labels(prog) + 0
-  val programVars = vars(prog)
+  private val points = programPoints(prog)
+  private val eBlocks = blocks(prog)
+  private val cfg = flowGraph(prog)
+  private val allLabels = labels(prog) + 0
+  private val programVars = vars(prog)
 
   override def equations(): List[Equation] = points.map {
     case pp@Entry(l) if l == initialLabel(prog) =>

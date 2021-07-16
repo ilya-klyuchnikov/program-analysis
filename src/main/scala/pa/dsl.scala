@@ -1,10 +1,11 @@
 package pa
 
+import scala.language.implicitConversions
 import pa.ast._
 
 object dsl {
   implicit class SymbolOps(val s: Symbol) {
-    def :=(e: AExpr) =
+    def :=(e: AExpr): Assignment =
       Assignment(Var(s.name), e)
   }
 
@@ -15,19 +16,19 @@ object dsl {
     Numeral(i)
 
   implicit class LabelOps(val label: Int) {
-    def |:(assign: Assignment) =
+    def |:(assign: Assignment): Stmt =
       LabeledAssignment(assign.v, assign.ae, label)
-    def |:(be: BExpr) =
+    def |:(be: BExpr): LabeledBExpr =
       LabeledBExpr(be, label)
-    def |:(s: Skip.type) =
+    def |:(s: Skip.type): Stmt =
       LabeledSkip(label)
   }
 
-  def `while`(be: LabeledBExpr)(ss: Stmt*) =
+  def `while`(be: LabeledBExpr)(ss: Stmt*): Stmt =
     While(be, StmtSeq(ss.toList))
 
-  def `if`(be: LabeledBExpr)(ss1: Stmt*)(ss2: Stmt*) =
+  def `if`(be: LabeledBExpr)(ss1: Stmt*)(ss2: Stmt*): Stmt =
     If(be, StmtSeq(ss1.toList), StmtSeq(ss2.toList))
 
-  def skip = Skip
+  def skip: Skip.type = Skip
 }

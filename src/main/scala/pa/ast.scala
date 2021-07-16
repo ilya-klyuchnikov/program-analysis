@@ -9,12 +9,12 @@ object ast {
 
   object BOperator extends Enumeration {
     type BOperator = Value
-    val UNKNOWN = Value
+    val UNKNOWN: BOperator = Value
   }
 
   object ROperator extends Enumeration {
     type ROperator = Value
-    val GT = Value
+    val GT: ROperator = Value
   }
 
   import AOperator._
@@ -29,16 +29,16 @@ object ast {
 
   // arithmetic expression
   sealed trait AExpr extends Expr {
-    def >(ae: AExpr) =
+    def >(ae: AExpr): ROperation =
       ROperation(this, ae, ROperator.GT)
 
-    def *(ae: AExpr) =
+    def *(ae: AExpr): AOperation =
       AOperation(this, ae, AOperator.MULT)
 
-    def +(ae: AExpr) =
+    def +(ae: AExpr): AOperation =
       AOperation(this, ae, AOperator.PLUS)
 
-    def -(ae: AExpr) =
+    def -(ae: AExpr): AOperation =
       AOperation(this, ae, AOperator.MINUS)
   }
 

@@ -2,12 +2,15 @@ package pa
 
 import pa.ast._
 
+import scala.annotation.tailrec
+
 object controlFlow {
   type Labels = Set[Label]
   type Flows = Set[(Label, Label)]
   case class FlowGraph(labels: Labels, flows: Flows)
 
   // p. 36 - initial and final labels
+  @tailrec
   def initialLabel(stmt: Stmt): Label = stmt match {
     case LabeledAssignment(v, ae, label) =>
       label
