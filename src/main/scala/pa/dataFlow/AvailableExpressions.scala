@@ -11,22 +11,22 @@ case class AvailableExpressions(prog: Stmt) extends Analysis[Set[AExpr]] {
   private val programAExprs = eBlocks.map(aExprs).reduce(_ ++ _)
 
   override def equations(): List[Equation] = points.map {
-    case pp@Entry(l) if l == initialLabel(prog) =>
+    case pp @ Entry(l) if l == initialLabel(prog) =>
       Equation(
         pp,
-        sol => Set()
+        sol => Set(),
       )
-    case pp@Entry(l) =>
-      val froms = for {(from, `l`) <- cfg.flows} yield from
+    case pp @ Entry(l) =>
+      val froms = for { (from, `l`) <- cfg.flows } yield from
       Equation(
         pp,
-        sol => froms.map(from => sol(Exit(from))).reduce(_ & _)
+        sol => froms.map(from => sol(Exit(from))).reduce(_ & _),
       )
-    case pp@Exit(l) =>
+    case pp @ Exit(l) =>
       val block = eBlocks.find(_.label == l).get
       Equation(
         pp,
-        sol => sol(Entry(l)) -- kill(block) ++ gen(block)
+        sol => sol(Entry(l)) -- kill(block) ++ gen(block),
       )
   }
 

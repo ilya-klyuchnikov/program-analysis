@@ -39,9 +39,9 @@ object controlFlow {
 
   // elementary blocks
   def blocks(stmt: Stmt): Set[ElementaryBlock] = stmt match {
-    case assign:LabeledAssignment =>
+    case assign: LabeledAssignment =>
       Set(assign)
-    case skip:LabeledSkip =>
+    case skip: LabeledSkip =>
       Set(skip)
     case StmtSeq(statements) =>
       statements.map(blocks).reduce(_ ++ _)
@@ -73,9 +73,13 @@ object controlFlow {
         } yield l1 -> l2
       localFlow ++ interFlow
     case If(LabeledBExpr(_, lbl), b1, b2) =>
-      flow(b1) ++ flow(b2) + (lbl -> initialLabel(b1)) + (lbl -> initialLabel(b2))
+      flow(b1) ++ flow(b2) + (lbl -> initialLabel(b1)) + (lbl -> initialLabel(
+        b2
+      ))
     case While(LabeledBExpr(_, lbl), body) =>
-      flow(body) + (lbl -> initialLabel(body)) ++ finalLabels(body).map(_ -> lbl)
+      flow(body) + (lbl -> initialLabel(body)) ++ finalLabels(body).map(
+        _ -> lbl
+      )
   }
 
   def reverseFlow(stmt: Stmt): Set[(Label, Label)] =
@@ -86,7 +90,7 @@ object controlFlow {
 
   // non-trivial arithmethic subexpressions
   def aExprs(exp: Expr): Set[AExpr] = exp match {
-    case aop@AOperation(ae1, ae2, _) =>
+    case aop @ AOperation(ae1, ae2, _) =>
       Set(aop) ++ aExprs(ae1) ++ aExprs(ae2)
     case Not(be) =>
       aExprs(be)

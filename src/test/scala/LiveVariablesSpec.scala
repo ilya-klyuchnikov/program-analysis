@@ -7,7 +7,7 @@ import pa.controlFlow._
 
 class LiveVariablesSpec extends org.scalatest.FunSpec {
 
-  def set(ps: Var*): Set[Var] = Set(ps:_*)
+  def set(ps: Var*): Set[Var] = Set(ps: _*)
 
   describe("Live Variables Analysis") {
     it("Example 2.11") {
@@ -18,28 +18,28 @@ class LiveVariablesSpec extends org.scalatest.FunSpec {
           ('x := 1) |: 3,
           `if`('y > 'x |: 4)(
             ('z := 'y) |: 5
-          ) (
+          )(
             ('z := 'y * 'y) |: 6
           ),
-          ('x := 'z) |: 7
+          ('x := 'z) |: 7,
         )
 
       val actual = LiveVariables(prog).solve()
       val expected = Map[ProgramPoint, Set[Var]](
         Entry(1) -> set(),
-        Exit(1)  -> set(),
+        Exit(1) -> set(),
         Entry(2) -> set(),
-        Exit(2)  -> set('y),
+        Exit(2) -> set('y),
         Entry(3) -> set('y),
-        Exit(3)  -> set('x, 'y),
+        Exit(3) -> set('x, 'y),
         Entry(4) -> set('x, 'y),
-        Exit(4)  -> set('y),
+        Exit(4) -> set('y),
         Entry(5) -> set('y),
-        Exit(5)  -> set('z),
+        Exit(5) -> set('z),
         Entry(6) -> set('y),
-        Exit(6)  -> set('z),
+        Exit(6) -> set('z),
         Entry(7) -> set('z),
-        Exit(7)  -> set()
+        Exit(7) -> set(),
       )
 
       val points = programPoints(prog)

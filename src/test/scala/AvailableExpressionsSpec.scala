@@ -15,22 +15,22 @@ class AvailableExpressionsSpec extends org.scalatest.FunSpec {
           ('y := 'a * 'b) |: 2,
           `while`('y > 'a + 'b |: 3)(
             ('a := 'a + 1) |: 4,
-            ('x := 'a + 'b) |: 5
-          )
+            ('x := 'a + 'b) |: 5,
+          ),
         )
 
       val actual = AvailableExpressions(prog).solve()
       val expected = Map[ProgramPoint, Set[AExpr]](
         Entry(1) -> Set(),
-        Exit(1)  -> Set('a + 'b),
+        Exit(1) -> Set('a + 'b),
         Entry(2) -> Set('a + 'b),
-        Exit(2)  -> Set('a + 'b, 'a * 'b),
+        Exit(2) -> Set('a + 'b, 'a * 'b),
         Entry(3) -> Set('a + 'b),
-        Exit(3)  -> Set('a + 'b),
+        Exit(3) -> Set('a + 'b),
         Entry(4) -> Set('a + 'b),
-        Exit(4)  -> Set(),
+        Exit(4) -> Set(),
         Entry(5) -> Set(),
-        Exit(5)  -> Set('a + 'b)
+        Exit(5) -> Set('a + 'b),
       )
 
       val points = programPoints(prog)

@@ -11,22 +11,22 @@ case class VeryBusyExpressions(prog: Stmt) extends Analysis[Set[AExpr]] {
   private val programAExprs = eBlocks.map(aExprs).reduce(_ ++ _)
 
   override def equations(): List[Equation] = points.map {
-    case pp@Entry(l) =>
+    case pp @ Entry(l) =>
       val block = eBlocks.find(_.label == l).get
       Equation(
         pp,
-        sol => sol(Exit(l)) -- kill(block) ++ gen(block)
+        sol => sol(Exit(l)) -- kill(block) ++ gen(block),
       )
-    case pp@Exit(l) if finalLabels(prog).contains(l) =>
+    case pp @ Exit(l) if finalLabels(prog).contains(l) =>
       Equation(
         pp,
-        sol => Set()
+        sol => Set(),
       )
-    case pp@Exit(l) =>
-      val tos = for {(`l`, to) <- flows} yield to
+    case pp @ Exit(l) =>
+      val tos = for { (`l`, to) <- flows } yield to
       Equation(
         pp,
-        sol => tos.map(l => sol(Entry(l))).reduce(_ & _)
+        sol => tos.map(l => sol(Entry(l))).reduce(_ & _),
       )
   }
 

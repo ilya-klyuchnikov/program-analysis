@@ -62,12 +62,18 @@ object ast {
   sealed trait Stmt
 
   case class Assignment(v: Var, ae: AExpr)
-  case class LabeledAssignment(v: Var, ae: AExpr, label: Label) extends Stmt with ElementaryBlock
+  case class LabeledAssignment(v: Var, ae: AExpr, label: Label)
+      extends Stmt
+      with ElementaryBlock
 
   case object Skip
   case class LabeledSkip(label: Label) extends Stmt with ElementaryBlock
 
-  case class If(condition: LabeledBExpr, thenBranch: StmtSeq, elseBranch: StmtSeq) extends Stmt
+  case class If(
+      condition: LabeledBExpr,
+      thenBranch: StmtSeq,
+      elseBranch: StmtSeq,
+  ) extends Stmt
   case class While(condition: LabeledBExpr, body: StmtSeq) extends Stmt
   case class StmtSeq(statements: List[Stmt]) extends Stmt
 
@@ -94,7 +100,7 @@ object ast {
   }
 
   def vars(exp: Expr): Set[Var] = exp match {
-    case v:Var =>
+    case v: Var =>
       Set(v)
     case Numeral(_) =>
       Set()
@@ -112,4 +118,3 @@ object ast {
       vars(ae1) ++ vars(ae2)
   }
 }
-
