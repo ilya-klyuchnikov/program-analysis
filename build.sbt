@@ -1,4 +1,4 @@
-scalaVersion := "2.11.2"
+scalaVersion := "2.12.14"
 
 name := "program-analysis"
 
@@ -7,4 +7,4 @@ scalacOptions ++= Seq(
   "-feature",
 )
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.0" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % "test"
